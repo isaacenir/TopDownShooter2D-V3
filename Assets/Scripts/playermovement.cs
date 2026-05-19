@@ -9,6 +9,7 @@ public class playermovement : MonoBehaviour
     private Vector2 movement;
     private Rigidbody2D rb;
     private Animator myAnimator;
+    private SpriteRenderer mySpriteRenderer;
 
 
     private void Awake()
@@ -16,6 +17,7 @@ public class playermovement : MonoBehaviour
         playerControls = new Playercontrol();
         rb = GetComponent<Rigidbody2D>();
         myAnimator = GetComponent<Animator>();
+        mySpriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     private void OnEnable()
@@ -25,6 +27,7 @@ public class playermovement : MonoBehaviour
 
     void Update()
     {
+        AdjustplayerFacingDirection();
         PlayerInput();
     }
 
@@ -45,4 +48,26 @@ public class playermovement : MonoBehaviour
     {
         rb.MovePosition(rb.position + movement * (moveSpeed * Time.fixedDeltaTime));
     }
+    
+    private void AdjustplayerFacingDirection()
+    {
+        Vector3 mousePos = Input.mousePosition;
+        Vector3 playerScreenPoint = Camera.main.WorldToScreenPoint(transform.position);
+
+        if (mousePos.x < playerScreenPoint.x)
+        {
+           mySpriteRenderer.flipX = true;
+        }
+        else
+        {
+           mySpriteRenderer.flipX = false;
+        }
+    }
+
+
+
+
+
+
+
 }
